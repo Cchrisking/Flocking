@@ -21,8 +21,8 @@ class Boid {
     maxspeed = 2;
     maxforce = 0.03;
   }
-  void run(ArrayList<Boid> boids) {
-    flock(boids);
+  void run(ArrayList<Boid> boids, Predateur predateur) {
+    flock(boids, predateur);
     update();
     borders();
     render();
@@ -32,10 +32,11 @@ class Boid {
     acceleration.add(force);
   }
   // We accumulate a new acceleration each time based on three rules
-  void flock(ArrayList<Boid> boids) {
+  void flock(ArrayList<Boid> boids, Predateur predateur) {
     PVector sep = separate(boids);   // Separation
     PVector ali = align(boids);      // Alignment
     PVector coh = cohesion(boids);   // Cohesion
+    survive(predateur);
     // Arbitrarily weight these forces
     sep.mult(1.5);
     ali.mult(1.0);
@@ -91,7 +92,6 @@ class Boid {
     endShape();
     popMatrix();
   }
-
   // Wraparound
   void borders() {
     if (position.x < -r) position.x = width+r;
@@ -99,7 +99,6 @@ class Boid {
     if (position.x > width+r) position.x = -r;
     if (position.y > height+r) position.y = -r;
   }
-
   // Separation
   // Method checks for nearby boids and steers away
   PVector separate (ArrayList<Boid> boids) {
@@ -110,6 +109,10 @@ class Boid {
     for (Boid other : boids) {
       float d = PVector.dist(position, other.position);
       // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+      /*if(count<boids.size()){
+      System.out.print("Boid "+count+" X: "+other.position.x+" Y: "+other.position.y);
+      System.out.println();
+      }*/
       if ((d > 0) && (d < desiredseparation)) {
         // Calculate vector pointing away from neighbor
         PVector diff = PVector.sub(position, other.position);
@@ -137,6 +140,20 @@ class Boid {
     }
     return steer;
   }
+  /*Method to check for predator must be PVector*/
+    void survive(Predateur predator){
+       float desiredseparation = 12.0f;
+       PVector steer = new PVector(0, 0, 0);
+      float d = PVector.dist(position, predator.position);
+      if (d < desiredseparation) {
+        // Calculate vector pointing away from neighbor
+        System.out.println("Predator spoted");
+        PVector diff = PVector.sub(position, predator.position);
+        diff.normalize();
+        diff.div(d);        // Weight by distance
+        steer.add(diff);
+      }
+    }
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {

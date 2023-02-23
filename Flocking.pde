@@ -24,7 +24,7 @@ void setup() {
 
 void draw() {
   background(50);
-  flock.run();
+  flock.run(predateur);
  predateur.run(flock);
 }
 
