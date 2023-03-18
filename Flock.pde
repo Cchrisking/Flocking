@@ -6,10 +6,13 @@ class Flock {
   Flock() {
     boids = new ArrayList<Boid>(); // Initialize the ArrayList
   }
-
+  /*
+  @predateur
+  faire passer la liste entiere des boids et le predateur a chaque boids 
+  */
   void run(Predateur predateur) {
     for (Boid b : boids) {
-      b.run(boids, predateur);  // Passing the entire list of boids to each boid individually
+      b.run(boids, predateur);
     }
   }
   void addBoid(Boid b) {

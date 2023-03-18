@@ -23,9 +23,9 @@ void setup() {
 }
 
 void draw() {
-  background(50);
+  background(50,75,25);
   flock.run(predateur);
- predateur.run(flock);
+  predateur.run(flock);
 }
 
 // Add a new boid into the System

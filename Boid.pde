@@ -9,7 +9,7 @@ class Boid {
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
 
-    Boid(float x, float y) {
+  Boid(float x, float y) {
     acceleration = new PVector(0, 0);
     // This is a new PVector method not yet implemented in JS
     // velocity = PVector.random2D();
@@ -41,7 +41,7 @@ class Boid {
     sep.mult(1.5);
     ali.mult(1.0);
     coh.mult(1.0);
-    // Add the force vectors to acceleration
+    //Add the force vectors to acceleration
     applyForce(sep);
     applyForce(ali);
     applyForce(coh);
@@ -74,12 +74,11 @@ class Boid {
     steer.limit(maxforce);  // Limit to maximum steering force
     return steer;
   }
-
   void render() {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
     // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
-    
+
     fill(200, 100);
     stroke(255);
     pushMatrix();
@@ -110,9 +109,9 @@ class Boid {
       float d = PVector.dist(position, other.position);
       // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
       /*if(count<boids.size()){
-      System.out.print("Boid "+count+" X: "+other.position.x+" Y: "+other.position.y);
-      System.out.println();
-      }*/
+       System.out.print("Boid "+count+" X: "+other.position.x+" Y: "+other.position.y);
+       System.out.println();
+       }*/
       if ((d > 0) && (d < desiredseparation)) {
         // Calculate vector pointing away from neighbor
         PVector diff = PVector.sub(position, other.position);
@@ -141,19 +140,19 @@ class Boid {
     return steer;
   }
   /*Method to check for predator must be PVector*/
-    void survive(Predateur predator){
-       float desiredseparation = 12.0f;
-       PVector steer = new PVector(0, 0, 0);
-      float d = PVector.dist(position, predator.position);
-      if (d < desiredseparation) {
-        // Calculate vector pointing away from neighbor
-        System.out.println("Predator spoted");
-        PVector diff = PVector.sub(position, predator.position);
-        diff.normalize();
-        diff.div(d);        // Weight by distance
-        steer.add(diff);
-      }
+  void survive(Predateur predator) {
+    float desiredseparation = 12.0f;
+    PVector steer = new PVector(0, 0, 0);
+    float d = PVector.dist(position, predator.position);
+    if (d < desiredseparation) {
+      // Calculate vector pointing away from neighbor
+      System.out.println("Predator spoted");
+      PVector diff = PVector.sub(position, predator.position);
+      diff.normalize();
+      diff.div(d);        // Weight by distance
+      steer.add(diff);
     }
+  }
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {
@@ -178,8 +177,7 @@ class Boid {
       PVector steer = PVector.sub(sum, velocity);
       steer.limit(maxforce);
       return steer;
-    } 
-    else {
+    } else {
       return new PVector(0, 0);
     }
   }
@@ -199,8 +197,7 @@ class Boid {
     if (count > 0) {
       sum.div(count);
       return seek(sum);  // Steer towards the position
-    } 
-    else {
+    } else {
       return new PVector(0, 0);
     }
   }
