@@ -27,7 +27,6 @@ void draw() {
   flock.run(predateur);
   predateur.run(flock);
 }
-
 // Add a new boid into the System
 void mousePressed() {
   if(mouseButton==LEFT){

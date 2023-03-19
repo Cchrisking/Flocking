@@ -36,15 +36,17 @@ class Boid {
     PVector sep = separate(boids);   // Separation
     PVector ali = align(boids);      // Alignment
     PVector coh = cohesion(boids);   // Cohesion
-    survive(predateur);
+    PVector sur=survive(predateur);
     // Arbitrarily weight these forces
     sep.mult(1.5);
     ali.mult(1.0);
     coh.mult(1.0);
+    sur.mult(1.5);
     //Add the force vectors to acceleration
     applyForce(sep);
     applyForce(ali);
     applyForce(coh);
+    applyForce(sur);
   }
   // Method to update position
   void update() {
@@ -64,11 +66,9 @@ class Boid {
     // Scale to maximum speed
     desired.normalize();
     desired.mult(maxspeed);
-
     // Above two lines of code below could be condensed with new PVector setMag() method
     // Not using this method until Processing.js catches up
     // desired.setMag(maxspeed);
-
     // Steering = Desired minus Velocity
     PVector steer = PVector.sub(desired, velocity);
     steer.limit(maxforce);  // Limit to maximum steering force
@@ -79,7 +79,7 @@ class Boid {
     float theta = velocity.heading2D() + radians(90);
     // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
 
-    fill(200, 100);
+    fill(0,0,252);
     stroke(255);
     pushMatrix();
     translate(position.x, position.y);
@@ -140,11 +140,11 @@ class Boid {
     return steer;
   }
   /*Method to check for predator must be PVector*/
-  void survive(Predateur predator) {
-    float desiredseparation = 12.0f;
+  PVector survive(Predateur predator) {
+    float desiredseparation = 25.0f;
     PVector steer = new PVector(0, 0, 0);
     float d = PVector.dist(position, predator.position);
-    if (d < desiredseparation) {
+    if ((d > 0) && (d < desiredseparation)) {
       // Calculate vector pointing away from neighbor
       System.out.println("Predator spoted");
       PVector diff = PVector.sub(position, predator.position);
@@ -152,6 +152,7 @@ class Boid {
       diff.div(d);        // Weight by distance
       steer.add(diff);
     }
+    return steer;
   }
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
