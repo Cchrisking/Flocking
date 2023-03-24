@@ -18,6 +18,9 @@ class Flock {
   void addBoid(Boid b) {
     boids.add(b);
   }
+  void twick_separation(){
+    
+  }
   public ArrayList<Boid> getprays(){
     return boids;
   }

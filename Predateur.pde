@@ -58,7 +58,7 @@ class Predateur {
   }
   void render() {
     // Draw a triangle rotated in the direction of velocity
-    float theta = velocity.heading2D() + radians(90);
+    float theta = velocity.heading() + radians(45);
     // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
     fill(255,204,0);
     stroke(150);
@@ -66,12 +66,12 @@ class Predateur {
     translate(position.x, position.y);
     rotate(theta);
     beginShape();
-    vertex(200*0.07, 50*0.07); // first point
-    vertex(300*0.07, 100*0.07); // second point
-    vertex(300*0.07, 200*0.07); // third point
-    vertex(200*0.07, 250*0.07); // fourth point
-    vertex(100*0.07, 200*0.07); // fifth point
-    vertex(100*0.07, 100*0.07); // sixth point
+    vertex(14, 3.5); // first point
+    vertex(21, 7); // second point
+    vertex(21, 14); // third point
+    vertex(14, 17.5); // fourth point
+    vertex(7, 14); // fifth point
+    vertex(7, 7); // sixth point
     endShape();
     popMatrix();
   }

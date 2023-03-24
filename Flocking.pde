@@ -11,7 +11,14 @@
 
 Flock flock;
 Predateur predateur;
-
+Boid boid;
+float value = 0.0;
+float minValue = 0.0;
+float maxValue = 100.0;
+float scrollBarWidth = 20;
+float scrollBarHeight = 200;
+float scrollBarX = 50;
+float scrollBarY = 50;
 void setup() {
   size(640, 360,P3D);
   flock = new Flock();
@@ -21,11 +28,15 @@ void setup() {
     flock.addBoid(new Boid(width/2,height/2));
   }
 }
-
 void draw() {
   background(50,75,25);
   flock.run(predateur);
   predateur.run(flock);
+  fill(200);
+  rect(scrollBarX, scrollBarY, scrollBarWidth, scrollBarHeight);
+  float knobY = map(value, maxValue, minValue, scrollBarX, scrollBarY + scrollBarHeight);
+  fill(220,220,235);
+  ellipse(scrollBarY + scrollBarWidth/2, knobY, 20, 20);
 }
 // Add a new boid into the System
 void mousePressed() {
@@ -36,5 +47,12 @@ void mousePressed() {
   else if(mouseButton==RIGHT){
     System.out.println("Hello right world "+mouseX+";"+mouseY);
     predateur=new Predateur(mouseX,mouseY);
+  }
+}
+void mouseDragged() {
+  if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarWidth &&
+      mouseY > scrollBarY && mouseY < scrollBarY + scrollBarHeight){
+    value = map(mouseY, scrollBarY, scrollBarY + scrollBarHeight, maxValue, minValue);
+    //boid.Boid(value);
   }
 }
