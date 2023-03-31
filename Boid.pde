@@ -9,9 +9,6 @@ class Boid {
   float maxspeed;    // Maximum speed
   Boid(float x, float y) {
     acceleration = new PVector(0, 0);
-    // This is a new PVector method not yet implemented in JS
-    // velocity = PVector.random2D();
-    // Leaving the code temporarily this way so that this example runs in JS
     float angle = random(TWO_PI);
     velocity = new PVector(cos(angle), sin(angle));
     position = new PVector(x, y);
@@ -75,7 +72,7 @@ class Boid {
     steer.limit(maxforce);  // Limit to maximum steering force
     return steer;
   }
-  void render() {
+  void render(){
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading() + radians(90);
     fill(0,0,252);

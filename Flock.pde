@@ -2,14 +2,11 @@
 
 class Flock {
   ArrayList<Boid> boids; // An ArrayList for all the boids
-
+  ArrayList<Wind>windstorm;
   Flock() {
     boids = new ArrayList<Boid>(); // Initialize the ArrayList
+    windstorm=new ArrayList<Wind>();//Initialize the ArrayList for wind particles
   }
-  /*
-  @predateur
-  faire passer la liste entiere des boids et le predateur a chaque boids 
-  */
   void run(Predateur predateur) {
     for (Boid b : boids) {
       b.run(boids, predateur);
@@ -18,10 +15,12 @@ class Flock {
   void addBoid(Boid b) {
     boids.add(b);
   }
-  void twick_separation(){
-    
+  void addWind(Wind w){
+    windstorm.add(w);
   }
-  public ArrayList<Boid> getprays(){
-    return boids;
+  void startStorm(){
+    for(Wind particule:windstorm){
+      particule.run(windstorm);
+    }
   }
 }

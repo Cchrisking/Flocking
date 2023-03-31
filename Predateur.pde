@@ -18,9 +18,7 @@ class Predateur {
     maxspeed = 2;
     maxforce = 0.03;
   }
-  void run(Flock flock) {
-    //ArrayList<Boid> boids=flock.getprays();
-    //hunt(boids);
+  void run() {
     update();
     borders();
     render();
@@ -62,18 +60,19 @@ class Predateur {
     // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
     fill(255,204,0);
     stroke(150);
-    pushMatrix();
-    translate(position.x, position.y);
-    rotate(theta);
-    beginShape();
-    vertex(14, 3.5); // first point
-    vertex(21, 7); // second point
-    vertex(21, 14); // third point
-    vertex(14, 17.5); // fourth point
-    vertex(7, 14); // fifth point
-    vertex(7, 7); // sixth point
-    endShape();
-    popMatrix();
+  strokeWeight(1); // reduce stroke weight to improve shape
+  pushMatrix();
+  translate(position.x, position.y);
+  rotate(theta);
+  beginShape();
+  vertex(14, 3.7); // first point
+  vertex(21, 7); // second point
+  vertex(21, 14); // third point
+  vertex(14, 17.5); // fourth point
+  vertex(7, 14); // fifth point
+  vertex(7, 7); // sixth point
+  endShape(CLOSE); // close the shape
+  popMatrix();
   }
   // Wraparound
   void borders() {
