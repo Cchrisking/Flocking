@@ -91,7 +91,7 @@ class Wind {
     return steer;
   }
    PVector align (ArrayList<Wind> winds) {
-    float neighbordist = 50;
+    float neighbordist = 25;
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Wind particule : winds) {
@@ -103,10 +103,6 @@ class Wind {
     }
     if (count > 0) {
       sum.div((float)count);
-      // First two lines of code below could be condensed with new PVector setMag() method
-      // Not using this method until Processing.js catches up
-      // sum.setMag(maxspeed);
-      // Implement Reynolds: Steering = Desired - Velocity
       sum.normalize();
       sum.mult(maxspeed);
       PVector steer = PVector.sub(sum, velocity);

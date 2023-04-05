@@ -4,10 +4,16 @@ class Boid {
   PVector velocity;
   PVector acceleration;
   float desiredseparation = 25.0f;
+  float sepValue;
+  float coValue;
+  float alignValue;
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
   Boid(float x, float y) {
+    sepValue=25.0;
+    coValue=25.0;
+    alignValue=25.0;
     acceleration = new PVector(0, 0);
     float angle = random(TWO_PI);
     velocity = new PVector(cos(angle), sin(angle));
@@ -36,6 +42,7 @@ class Boid {
     PVector coh = cohesion(boids);   // Cohesion
     PVector sur=avoid_predator(predateur);
     // Arbitrarily weight these forces
+    if(sur.x > 0 && sur.y > 0) System.out.println(sur);
     sep.mult(1.5);
     ali.mult(1.0);
     coh.mult(1.0);
@@ -97,7 +104,7 @@ class Boid {
   // Separation
   // Method checks for nearby boids and steers away
   PVector separate (ArrayList<Boid> boids) {
-    //float desiredseparation = 25.0f;
+    float desiredseparation = sepValue;
     PVector steer = new PVector(0, 0, 0);
     int count = 0;
     // For every boid in the system, check if it's too close
@@ -135,7 +142,7 @@ class Boid {
     return steer;
   }
    PVector avoid_predator (Predateur predator) {
-   float safezone = 42.0f;
+   float safezone = 50.0f;
     PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
     int count = 0;
       float d = PVector.dist(position, predator.position);
@@ -148,9 +155,9 @@ class Boid {
       }
      if (count > 0) {
       sum.div((float)count);
-    }
+     }
     // As long as the vector is greater than 0
-    if (sum.mag() > 0) {
+     if (sum.mag() > 0) {
       // First two lines of code below could be condensed with new PVector setMag() method
       // Not using this method until Processing.js catches up
       // steer.setMag(maxspeed);
@@ -158,14 +165,14 @@ class Boid {
       sum.normalize();
       sum.mult(maxspeed);
       sum.sub(velocity);
-      sum.limit(maxforce);
-    }
+      sum.limit(0.75);
+     }
     return sum;
   }
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {
-    float neighbordist = 50;
+    float neighbordist = alignValue;
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Boid other : boids) {
@@ -193,7 +200,8 @@ class Boid {
   // Cohesion
   // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
   PVector cohesion (ArrayList<Boid> boids) {
-    float neighbordist = 50;
+    float neighbordist = coValue;
+    System.out.println("Chision: "+neighbordist);
     PVector sum = new PVector(0,0);   // Start with empty vector to accumulate all positions
     int count = 0;
     for (Boid other : boids) {
@@ -209,5 +217,14 @@ class Boid {
     } else {
       return new PVector(0,0);
     }
+  }
+  void set_cohesion(float potential){
+    coValue=potential;
+  }
+  void set_separation(float potential){
+    sepValue=potential;
+  }
+  void set_align(float potential){
+    alignValue=potential;
   }
 }

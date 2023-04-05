@@ -23,4 +23,19 @@ class Flock {
       particule.run(windstorm);
     }
   }
+  void setcohision(float variator){
+    for (Boid b : boids) {
+      b.set_cohesion(variator);
+    }
+  }
+  void setseparation(float variator){
+    for (Boid b : boids) {
+      b.set_separation(variator);
+    }
+  }
+   void setalign(float variator){
+    for (Boid b : boids) {
+      b.set_align(variator);
+    }
+  }
 }
