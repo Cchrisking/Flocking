@@ -105,6 +105,7 @@ class Boid {
   // Method checks for nearby boids and steers away
   PVector separate (ArrayList<Boid> boids) {
     float desiredseparation = sepValue;
+    System.out.println("Chision: "+desiredseparation);
     PVector steer = new PVector(0, 0, 0);
     int count = 0;
     // For every boid in the system, check if it's too close
@@ -173,6 +174,7 @@ class Boid {
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {
     float neighbordist = alignValue;
+    System.out.println("align: "+neighbordist);
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Boid other : boids) {

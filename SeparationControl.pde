@@ -2,7 +2,7 @@ class SeparationControl{
   float value = 0.0;
   float minValue = 0.0;
   float maxValue = 100.0;
-  float scrollBarX = 50;
+  float scrollBarX = 80;
   float scrollBarY = 50;
   void setValue(float newvalue){
     value = newvalue;
