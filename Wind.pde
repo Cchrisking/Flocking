@@ -13,7 +13,7 @@ class Wind {
     velocity = new PVector(cos(angle), sin(angle));
     position = new PVector(x, y);
     r = 2.0;
-    maxspeed = 1;
+    maxspeed = 0.2;
     maxforce = 0.01;
   }
   void run(ArrayList<Wind> winds) {
@@ -32,9 +32,9 @@ class Wind {
     acceleration.mult(0);
   }
   void render() {
-    float theta = velocity.heading() + radians(45);
+    float theta = velocity.heading() + radians(90);
     fill(255,0,0);
-    stroke(10);
+   // stroke(10);
     pushMatrix();
     translate(position.x, position.y);
     rotate(theta);
@@ -55,48 +55,17 @@ class Wind {
     if (position.y > height+r) position.y = -r;
   }
     void storm(ArrayList<Wind> winds) {
-    PVector sep = separate(winds);   // Separation
-    // Arbitrarily weight these forces
-    sep.mult(1.5);
-    //Add the force vectors to acceleration
-    applyForce(sep);
-  }
-    PVector separate (ArrayList<Wind> winds) {
-    //float desiredseparation = 25.0f;
-    PVector steer = new PVector(0, 0, 0);
-    int count = 0;
-    // For every boid in the system, check if it's too close
-    for (Wind particule : winds) {
-      float d = PVector.dist(position, particule.position);
-      if ((d > 0) && (d < intermolecular_space)) {
-        // Calculate vector pointing away from neighbor
-        PVector diff = PVector.sub(position, particule.position);
-        diff.normalize();
-        diff.div(d);        // Weight by distance
-        steer.add(diff);
-        count++;            // Keep track of how many
-      }
-    }
-    // Average -- divide by how many
-    if (count > 0) {
-      steer.div((float)count);
-    }
-    // As long as the vector is greater than 0
-    if (steer.mag() > 0) {
-      steer.normalize();
-      steer.mult(maxspeed);
-      steer.sub(velocity);
-      steer.limit(maxforce);
-    }
-    return steer;
+    PVector align=align(winds);
+    align.mult(1.5);
+    applyForce(align);
   }
    PVector align (ArrayList<Wind> winds) {
-    float neighbordist = 25;
+    float neighbordist = 50;
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Wind particule : winds) {
       float d = PVector.dist(position, particule.position);
-      if ((d > 0) && (d < neighbordist)) {
+      if (d < neighbordist) {
         sum.add(particule.velocity);
         count++;
       }

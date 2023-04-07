@@ -9,7 +9,7 @@ class Flock {
   }
   void run(Predateur predateur) {
     for (Boid b : boids) {
-      b.run(boids, predateur);
+      b.run(boids, predateur,windstorm);
     }
   }
   void addBoid(Boid b) {
