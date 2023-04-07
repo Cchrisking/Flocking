@@ -1,5 +1,5 @@
 class SeparationControl{
-  float value = 0.0;
+  float value = 25.0;
   float minValue = 0.0;
   float maxValue = 100.0;
   float scrollBarX = 80;
